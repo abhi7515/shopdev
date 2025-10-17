@@ -1,0 +1,28 @@
+
+> dev
+> shopify app dev
+
+╭─ info ───────────────────────────────────────────────────────────────────────╮
+│                                                                              │
+│  Using shopify.app.toml for default values:                                  │
+│                                                                              │
+│    • Org:             shopdev                                                │
+│    • App:             optimized-merchandise-app                              │
+│    • Dev store:       mockstore1-2.myshopify.com                             │
+│    • Update URLs:     Yes                                                    │
+│                                                                              │
+│   You can pass `--reset` to your command to reset your app configuration.    │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+Running pre-dev command: "npx prisma generate"Preparing app preview on mockstore1-2.myshopify.comProxy server started on port 37393 GraphiQL server started on port 3457Environment variables loaded from .env
+Environment variables loaded from .env
+Prisma schema loaded from prisma/schema.prisma
+Datasource "db": SQLite database "dev.sqlite" at "file:dev.sqlite"
+
+2 migrations found in prisma/migrations
+
+
+No pending migrations to apply.
+✅ Ready, watching for changes in your app │ Access scopes auto-granted: write_products└ Using URL: https://rides-arnold-accountability-cell.trycloudflare.com  ➜  Local:   http://localhost:41215/
+  ➜  Network: use --host to expose

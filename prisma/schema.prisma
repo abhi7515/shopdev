@@ -1,0 +1,122 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// Note that some adapters may set a maximum length for the String type by default, please ensure your strings are long
+// enough when changing adapters.
+// See https://www.prisma.io/docs/orm/reference/prisma-schema-reference#string for more information
+datasource db {
+  provider = "sqlite"
+  url      = "file:dev.sqlite"
+}
+
+model Session {
+  id            String    @id
+  shop          String
+  state         String
+  isOnline      Boolean   @default(false)
+  scope         String?
+  expires       DateTime?
+  accessToken   String
+  userId        BigInt?
+  firstName     String?
+  lastName      String?
+  email         String?
+  accountOwner  Boolean   @default(false)
+  locale        String?
+  collaborator  Boolean?  @default(false)
+  emailVerified Boolean?  @default(false)
+}
+
+// SDK Configuration for each store
+model SDKConfig {
+  id                String   @id @default(uuid())
+  shop              String   @unique
+  apiKey            String   @unique
+  enabled           Boolean  @default(true)
+  llmProvider       String   @default("openai") // openai, anthropic, custom
+  llmModel          String   @default("gpt-4")
+  llmApiKey         String?
+  widgetPosition    String   @default("bottom-right") // bottom-right, bottom-left, etc.
+  primaryColor      String   @default("#000000")
+  accentColor       String   @default("#5C6AC4")
+  welcomeMessage    String   @default("Hi! I'm your AI shopping assistant. How can I help you today?")
+  customPrompt      String?
+  maxTokens         Int      @default(500)
+  temperature       Float    @default(0.7)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+// Chat conversations
+model Conversation {
+  id                String   @id @default(uuid())
+  shop              String
+  sessionId         String
+  customerId        String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  messages          Message[]
+  cartItems         CartItem[]
+  metadata          String?  // JSON field for additional data
+}
+
+// Individual chat messages
+model Message {
+  id              String       @id @default(uuid())
+  conversationId  String
+  conversation    Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  role            String       // user, assistant, system
+  content         String
+  productRefs     String?      // JSON array of product IDs referenced
+  createdAt       DateTime     @default(now())
+}
+
+// Cart items managed through chat
+model CartItem {
+  id              String       @id @default(uuid())
+  conversationId  String
+  conversation    Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  productId       String
+  variantId       String
+  quantity        Int          @default(1)
+  price           String
+  title           String
+  imageUrl        String?
+  addedAt         DateTime     @default(now())
+}
+
+// Product cache for faster retrieval
+model ProductCache {
+  id              String   @id
+  shop            String
+  title           String
+  description     String?
+  vendor          String?
+  productType     String?
+  tags            String?  // comma-separated
+  variants        String   // JSON array
+  images          String   // JSON array
+  price           String
+  compareAtPrice  String?
+  available       Boolean  @default(true)
+  lastSynced      DateTime @default(now())
+  @@unique([id, shop])
+}
+
+// Analytics for SDK usage
+model ChatAnalytics {
+  id                String   @id @default(uuid())
+  shop              String
+  conversationId    String
+  messageCount      Int      @default(0)
+  productsViewed    Int      @default(0)
+  productsAddedCart Int      @default(0)
+  checkoutInitiated Boolean  @default(false)
+  checkoutCompleted Boolean  @default(false)
+  sessionDuration   Int?     // in seconds
+  createdAt         DateTime @default(now())
+}

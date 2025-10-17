@@ -1,0 +1,73 @@
+{
+    "$schema": "https://docs.cursor.sh/schemas/v1/rules.json",
+    "version": 1,
+    "metadata": {
+      "name": "Procalyx Frontend Standards",
+      "description": "Cursor AI rules for scalable, secure, and maintainable frontend development"
+    },
+    "rules": [
+      {
+        "name": "Security and Input Handling",
+        "description": "All user inputs and API responses must be sanitized and validated.",
+        "enforce": [
+          "Always sanitize API and user inputs using utility functions.",
+          "Avoid direct DOM manipulation; use React state or refs safely.",
+          "Use parameterized queries or trusted APIs for backend interactions."
+        ]
+      },
+      {
+        "name": "Scalability and Architecture",
+        "description": "Ensure codebase remains modular, config-driven, and loosely coupled.",
+        "enforce": [
+          "Use environment-driven config files for constants, URLs, and API endpoints.",
+          "Avoid hardcoding values in components.",
+          "Follow feature-based folder structure (e.g., `features/<module>/components`)."
+        ]
+      },
+      {
+        "name": "Business Logic Separation",
+        "description": "Use custom hooks to isolate business logic from UI rendering.",
+        "enforce": [
+          "Create reusable hooks for data fetching, mutation, and side effects.",
+          "Keep components focused on UI; delegate logic to hooks or utilities."
+        ]
+      },
+      {
+        "name": "Performance and Optimization",
+        "description": "Implement working solutions first, then optimize for performance.",
+        "enforce": [
+          "Defer optimization until functionality is verified.",
+          "Use memoization (`React.memo`, `useMemo`, `useCallback`) judiciously.",
+          "Implement lazy loading and code-splitting for large modules."
+        ]
+      },
+      {
+        "name": "Offline and Low Network Resilience",
+        "description": "Ensure functionality under constrained or offline conditions.",
+        "enforce": [
+          "Use caching and service workers where applicable.",
+          "Handle fetch errors gracefully with retries and fallbacks.",
+          "Maintain minimal data payloads for critical paths."
+        ]
+      },
+      {
+        "name": "Testing and Validation",
+        "description": "Ensure comprehensive test coverage before deployment.",
+        "enforce": [
+          "Write unit tests covering all edge and corner cases.",
+          "Use Jest + React Testing Library for component testing.",
+          "Maintain at least 90% coverage for core logic and hooks."
+        ]
+      },
+      {
+        "name": "Code Consistency and Team Standards",
+        "description": "Maintain consistent code style and patterns across the team.",
+        "enforce": [
+          "Use ESLint, Prettier, and TypeScript strict mode.",
+          "Follow naming conventions and keep components small and cohesive.",
+          "Document new utilities and hooks using JSDoc or TSDoc."
+        ]
+      }
+    ]
+  }
+  
